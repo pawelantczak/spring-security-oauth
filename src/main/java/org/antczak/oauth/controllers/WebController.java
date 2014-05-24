@@ -8,9 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-public class HomeController {
+public class WebController {
 
     @RequestMapping("/") String index() {
         return "index";
+    }
+
+    @RequestMapping("/secured") String secured() {
+        return "secured";
+    }
+
+    @RequestMapping("/login") String login() {
+        return "login";
     }
 }
