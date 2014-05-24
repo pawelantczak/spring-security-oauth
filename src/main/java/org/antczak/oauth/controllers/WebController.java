@@ -1,11 +1,11 @@
 package org.antczak.oauth.controllers;
 
-import org.pac4j.core.client.Client;
 import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.exception.RequiresHttpAction;
 import org.pac4j.core.profile.UserProfile;
 import org.pac4j.oauth.client.Google2Client;
+import org.pac4j.oauth.client.TwitterClient;
 import org.pac4j.springframework.security.authentication.ClientAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,13 +26,23 @@ import javax.servlet.http.HttpServletResponse;
 public class WebController {
 
     @Autowired
-    Client google2Client;
+    Google2Client googleClient;
 
-    @ModelAttribute("googleOAuth2")
-    public String google2Url(HttpServletRequest httpServletRequest,
+    @Autowired
+    TwitterClient twitterClient;
+
+    @ModelAttribute("googleOAuth")
+    public String googleUrl(HttpServletRequest httpServletRequest,
         HttpServletResponse httpServletResponse) throws RequiresHttpAction {
         WebContext context = new J2EContext(httpServletRequest, httpServletResponse);
-        return ((Google2Client)google2Client).getRedirectAction(context, false, false).getLocation();
+        return googleClient.getRedirectAction(context, false, false).getLocation();
+    }
+
+    @ModelAttribute("twitterOAuth")
+    public String twitterUrl(HttpServletRequest httpServletRequest,
+        HttpServletResponse httpServletResponse) throws RequiresHttpAction {
+        WebContext context = new J2EContext(httpServletRequest, httpServletResponse);
+        return twitterClient.getRedirectAction(context, false, false).getLocation();
     }
 
     @ModelAttribute("userName")
@@ -41,9 +52,21 @@ public class WebController {
         if (auth != null && auth instanceof ClientAuthenticationToken) {
             ClientAuthenticationToken token = (ClientAuthenticationToken) auth;
             UserProfile profile = token.getUserProfile();
-            return profile.getAttribute("given_name").toString();
+            return profile.getAttribute("name").toString();
         }
         return "User";
+    }
+
+    @RequestMapping("/user")
+    @ResponseBody UserProfile user() {
+        Authentication auth = SecurityContextHolder.getContext()
+            .getAuthentication();
+        UserProfile profile = null;
+        if (auth != null && auth instanceof ClientAuthenticationToken) {
+            ClientAuthenticationToken token = (ClientAuthenticationToken) auth;
+            profile = token.getUserProfile();
+        }
+        return profile;
     }
 
     @RequestMapping("/") String index() {

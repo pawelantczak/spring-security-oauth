@@ -3,6 +3,7 @@ package org.antczak.oauth;
 import org.pac4j.core.client.Client;
 import org.pac4j.core.client.Clients;
 import org.pac4j.oauth.client.Google2Client;
+import org.pac4j.oauth.client.TwitterClient;
 import org.pac4j.springframework.security.authentication.ClientAuthenticationProvider;
 import org.pac4j.springframework.security.web.ClientAuthenticationEntryPoint;
 import org.pac4j.springframework.security.web.ClientAuthenticationFilter;
@@ -23,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // Google
     @Bean
-    public Client googleClient() {
+    public Google2Client googleClient() {
         Google2Client google2Client = new Google2Client();
         google2Client
             .setKey("167480702619-0k2ikl9v3ph44u6i6hid1b160v4fggua.apps.googleusercontent.com");
@@ -36,7 +37,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ClientAuthenticationEntryPoint clientAuthenticationEntryPoint =
             new ClientAuthenticationEntryPoint();
         //noinspection unchecked
-        clientAuthenticationEntryPoint.setClient(googleClient());
+        clientAuthenticationEntryPoint.setClient((Client)googleClient());
+        return clientAuthenticationEntryPoint;
+    }
+
+    // Twitter
+    @Bean
+    public TwitterClient twitterClient() {
+        TwitterClient twitterClient = new TwitterClient();
+        twitterClient
+            .setKey("CoxUiYwQOSFDReZYdjigBA");
+        twitterClient.setSecret("2kAzunH5Btc4gRSaMr7D7MkyoJ5u1VzbOOzE8rBofs");
+        return twitterClient;
+    }
+
+    @Bean
+    public ClientAuthenticationEntryPoint EntryPoint() {
+        ClientAuthenticationEntryPoint clientAuthenticationEntryPoint =
+            new ClientAuthenticationEntryPoint();
+        //noinspection unchecked
+        clientAuthenticationEntryPoint.setClient((Client)twitterClient());
         return clientAuthenticationEntryPoint;
     }
 
@@ -44,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean()
     public Clients clients() {
         Clients clients = new Clients();
-        clients.setClients(googleClient());
+        clients.setClients(googleClient(), twitterClient());
         clients.setCallbackUrl("http://localhost:8080/callback");
         return clients;
     }

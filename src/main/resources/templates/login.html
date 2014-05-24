@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
 
-    <title>Spring Security Google OAuth</title>
+    <title>Spring Security OAuth</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/webjars/bootstrap/3.1.1/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -52,8 +52,11 @@
                         <h3 class="panel-title">Please sign in</h3>
                     </div>
                     <div class="panel-body">
-                        <a class="btn btn-block btn-social btn-google-plus" th:href="${googleOAuth2}">
+                        <a class="btn btn-block btn-social btn-google-plus" th:href="${googleOAuth}">
                             <i class="fa fa-google-plus"></i> Sign in with Google
+                        </a>
+                        <a class="btn btn-block btn-social btn-twitter" th:href="${twitterOAuth}">
+                            <i class="fa fa-twitter"></i> Sign in with Twitter
                         </a>
                     </div>
                 </div>

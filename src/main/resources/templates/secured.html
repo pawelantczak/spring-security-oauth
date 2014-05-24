@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
 
-    <title>Spring Security Google OAuth</title>
+    <title>Spring Security OAuth</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/webjars/bootstrap/3.1.1/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -46,7 +46,7 @@
     <div class="starter-template">
         <h1>I'm secured page</h1>
 
-        <p class="lead">nice to meet you <span th:text="${userName}">user</span>.</p>
+        <p class="lead">nice to meet you <a href="http://localhost:8080/user" th:text="${userName}">user</a>.</p>
 
         <a href="/logout" class="btn btn-primary btn-lg active" role="button">Logout</a>
     </div>
