@@ -9,3 +9,4 @@ Currently example covers Google and Twitter authentication.
 
 Use [Spring Boot](http://projects.spring.io/spring-boot/), [Thymeleaf](http://www.thymeleaf.org/), [Webjars](http://www.webjars.org/), [Bootstrap](http://getbootstrap.com/), [Social Buttons for Bootstrap](http://lipis.github.io/bootstrap-social/)
  
+[![Build Status](http://jee.antczak.org/jenkins/buildStatus/icon?job=spring-security-oauth)](http://jee.antczak.org/jenkins/job/spring-security-oauth/)
